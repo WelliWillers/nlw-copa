@@ -5,10 +5,7 @@ import { AuthProvider } from './src/contexts/AuthContext';
 
 import { Loading } from './src/components/Loading';
 
-import { SignIn } from './src/screens/SignIn/';
-import { New } from './src/screens/New';
-import { Find } from './src/screens/Find';
-import { Pools } from './src/screens/Pools';
+import { Routes } from './src/routes';
 
 
 export default function App() {
@@ -28,7 +25,7 @@ export default function App() {
           translucent
         />
         {
-          !fontsLoaded ? <Loading /> : <SignIn />
+          !fontsLoaded ? <Loading /> : <Routes />
         }
       </AuthProvider>
     </NativeBaseProvider>
