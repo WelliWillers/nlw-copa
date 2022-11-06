@@ -17,7 +17,7 @@ async function bootstrap() {
     })
 
     await fastify.register(jwt, {
-        secret: "adawdawdaw"
+        secret: `${process.env.SECRET_JWT}`
     })
 
     await fastify.register(poolRoutes)
