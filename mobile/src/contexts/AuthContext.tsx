@@ -1,6 +1,7 @@
 import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 import * as AuthSession from 'expo-auth-session'
 import * as Google from 'expo-auth-session/providers/google'
+import { api } from "../services/api";
 // import * as AppleAuthentication from 'expo-apple-authentication';
 
 interface Props {
@@ -33,7 +34,7 @@ export const AuthContext = createContext({} as AuthContextData)
 export function AuthProvider({children}: Props){
 
     const [ user, setUser ] = useState({} as UserProps)
-    const [ isLoading, setIsLoading ] = useState(true)
+    const [ isLoading, setIsLoading ] = useState(false)
 
     async function signOut(){
         // setUser({} as UserProps)
@@ -82,7 +83,25 @@ export function AuthProvider({children}: Props){
     }
 
     async function signInWithGoggle (access_token: string) {
-        console.log('access_token', access_token)
+        try {
+            setIsLoading(true)
+
+            const responseToken = await api.post('/users', {
+                access_token
+            })
+
+            api.defaults.headers.common['Authorization'] = `Bearer ${responseToken.data.token}`
+
+            const userInfoResponse = await api.get('/me')
+
+            setUser(userInfoResponse.data.user)
+
+        } catch (error){
+            console.error(error)
+            throw error
+        } finally {
+            setIsLoading(false)
+        }
     }
 
     useEffect(() => {

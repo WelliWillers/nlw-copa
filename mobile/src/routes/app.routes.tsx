@@ -7,6 +7,7 @@ import { Platform } from "react-native"
 import { New } from "../screens/New"
 import { Pools } from "../screens/Pools"
 import { Find } from "../screens/Find"
+import { SignIn } from "../screens/SignIn"
 
 const {Navigator, Screen} = createBottomTabNavigator()
 
