@@ -10,7 +10,6 @@ interface Props {
 
 interface AuthContextData {
     signIn(): Promise<void>
-    signOut(): Promise<void>
     user: UserProps
     isLoading: boolean
 }
@@ -36,13 +35,8 @@ export function AuthProvider({children}: Props){
     const [ user, setUser ] = useState({} as UserProps)
     const [ isLoading, setIsLoading ] = useState(false)
 
-    async function signOut(){
-        // setUser({} as UserProps)
-        // await AsyncStorage.removeItem(userStorageKey)
-    }
-
     const [ request, response, promptAsync ] = Google.useAuthRequest({
-        clientId: '874540415164-plp1g25sukgc83dcik2f9icdnfg83opo.apps.googleusercontent.com',
+        clientId: process.env.CLIENT_ID,
         redirectUri: AuthSession.makeRedirectUri({useProxy: true}),
         scopes: ['profile', 'email']
     })
@@ -111,7 +105,7 @@ export function AuthProvider({children}: Props){
     }, [response])
 
     return (
-        <AuthContext.Provider value={{ signIn, signOut, user, isLoading }}>
+        <AuthContext.Provider value={{ signIn, user, isLoading }}>
             {children}
         </AuthContext.Provider>
     )
